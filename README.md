@@ -1,6 +1,10 @@
 # Clojerx
 
-Lab playing with [JInterface](https://www.erlang.org/doc/apps/jinterface/jinterface_users_guide.html)
+Lab experimenting with [JInterface](https://www.erlang.org/doc/apps/jinterface/jinterface_users_guide.html); the main objective is to allow the creation of extensions using Clojure/Leiningen.
+
+*References*
+* https://github.com/E-xyza/zigler/
+* https://github.com/rusterlium/rustler
 
 ## Installation
 
