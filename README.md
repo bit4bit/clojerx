@@ -1,6 +1,6 @@
 # Clojerx
 
-**TODO: Add description**
+Lab playing with [JInterface](https://www.erlang.org/doc/apps/jinterface/jinterface_users_guide.html)
 
 ## Installation
 
@@ -18,4 +18,3 @@ end
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at <https://hexdocs.pm/clojerx>.
-
