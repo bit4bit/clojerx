@@ -24,7 +24,7 @@
 ]
         (if (not= (str action) "clojerx")
           (throw (Exception. (str "Invalid action: " action " expected clojerx"))))
-        (println "Received message")
+        (println "Received message" fun_name)
         (case (str atom_fun_name)
           "link" (do
                    (.link mbox action_reply_pid)
