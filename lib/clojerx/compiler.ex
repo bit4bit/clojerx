@@ -9,7 +9,6 @@ defmodule Clojerx.Compiler do
 
     Clojerx.Compiler.ensure_clojure_project(clj_dir, clj_ns)
     Clojerx.Compiler.create_jar(clj_dir, clj_ns, erl_jar, output_jar)
-
     quote do
     end
   end
@@ -23,7 +22,8 @@ defmodule Clojerx.Compiler do
   end
 
   def ensure_jinterface_jar() do
-    erl_jar = Path.join(:code.priv_dir(:clojerx), "OtpErlang-26.jar")
+    otp_release = :erlang.system_info(:otp_release)
+    erl_jar = Path.join(:code.priv_dir(:clojerx), "OtpErlang-#{otp_release}.jar")
 
     if not File.exists?(erl_jar) do
       raise "Erlang JInterface jar not found at #{erl_jar}"
