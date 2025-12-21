@@ -24,3 +24,12 @@ clojerx-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+**/deps.edn
+**/build.clj
+**.class
+**.manifest
+**.cp
+**.basis
+**/target/classes
+**.jar
