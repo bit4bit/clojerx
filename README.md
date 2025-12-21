@@ -3,6 +3,8 @@
 Lab experimenting with [JInterface](https://www.erlang.org/doc/apps/jinterface/jinterface_users_guide.html); the main objective is to allow the creation of extensions using Clojure/Leiningen.
 
 *References*
+* https://www.erlang.org/doc/apps/jinterface/assets/java/com/ericsson/otp/erlang/package-summary
+* https://hexdocs.pm/unifex/creating_unifex_natives.html
 * https://github.com/E-xyza/zigler/
 * https://github.com/rusterlium/rustler
 
