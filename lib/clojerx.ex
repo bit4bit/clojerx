@@ -37,6 +37,10 @@ defmodule Clojerx do
     end
   end
 
+  def app_dir(cnode) do
+    GenServer.call(cnode, :app_dir)
+  end
+
   def ensure_jar_path(otp_app, clj_ns) do
     jar_dir =
       otp_app

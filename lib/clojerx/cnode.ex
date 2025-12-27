@@ -36,6 +36,7 @@ defmodule Clojerx.CNode do
 
     {:ok,
      %{
+       clojerx_dir: clj_dir,
        clojure_port: port,
        clojerx_node: cnode,
        clojerx_dest: clojerx_dest,
@@ -83,6 +84,10 @@ defmodule Clojerx.CNode do
   def handle_call({:call, fun, args}, from, state) do
     send(state.clojerx_dest, {:clojerx, from, self(), fun, List.to_tuple(args)})
     {:noreply, state}
+  end
+
+  def handle_call(:app_dir, _from, state) do
+    {:reply, state.clojerx_dir, state}
   end
 
   @impl true

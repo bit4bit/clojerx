@@ -9,6 +9,7 @@ defmodule Clojerx.Compiler do
 
     Clojerx.Compiler.ensure_clojure_project(clj_dir, clj_ns)
     Clojerx.Compiler.create_jar(clj_dir, clj_ns, erl_jar, output_jar)
+
     quote do
     end
   end
