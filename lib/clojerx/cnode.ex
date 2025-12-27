@@ -86,10 +86,6 @@ defmodule Clojerx.CNode do
     {:noreply, state}
   end
 
-  def handle_call(:app_dir, _from, state) do
-    {:reply, state.clojerx_dir, state}
-  end
-
   @impl true
   def handle_info({_, {:data, out}}, state) do
     IO.inspect(out)
@@ -101,7 +97,9 @@ defmodule Clojerx.CNode do
     {:noreply, state}
   end
 
-  def handle_info({:clojerx, from, :sum, result}, state) do
+  # TODO: verify fun_name
+  def handle_info({:clojerx, from, fun_name, result}, state) do
+    IO.inspect(result, label: "Result #{fun_name}")
     GenServer.reply(from, result)
     {:noreply, state}
   end

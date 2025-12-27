@@ -5,6 +5,7 @@ defmodule Clojerx do
 
   defmacro __using__(opts) do
     otp_app = Keyword.fetch!(opts, :otp_app)
+    deps_edn = Keyword.get(opts, :deps, [])
     module = __CALLER__.module |> Module.split() |> List.last()
     clj_dir = Path.join(Path.dirname(__CALLER__.file), module)
     clj_ns = module
@@ -15,11 +16,13 @@ defmodule Clojerx do
       @clojerx_clj_dir unquote(clj_dir)
       @clojerx_clj_ns unquote(clj_ns)
       @clojerx_output_jar unquote(output_jar)
+      @clojerx_deps unquote(deps_edn)
       @clojerx_default_opts %{
         otp_app: @clojerx_otp_app,
         clj_dir: @clojerx_clj_dir,
         clj_ns: @clojerx_clj_ns,
-        output_jar: @clojerx_output_jar
+        output_jar: @clojerx_output_jar,
+        deps: @clojerx_deps
       }
       @before_compile Clojerx.Compiler
 
@@ -34,13 +37,12 @@ defmodule Clojerx do
       def call(srv, fun, args) when is_atom(fun) and is_list(args) do
         Clojerx.CNode.call(srv, fun, args)
       end
+
+      def __clojerx__, do: @clojerx_default_opts
     end
   end
 
-  def app_dir(cnode) do
-    GenServer.call(cnode, :app_dir)
-  end
-
+  # HOW to make private?
   def ensure_jar_path(otp_app, clj_ns) do
     jar_dir =
       otp_app
