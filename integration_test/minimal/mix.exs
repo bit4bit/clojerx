@@ -22,7 +22,7 @@ defmodule Minimal.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-    {:clojerx, path: "../../"}
+      {:clojerx, path: "../../"}
     ]
   end
 end

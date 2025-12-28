@@ -1,6 +1,14 @@
 defmodule Clojerx.Compiler do
   @moduledoc false
 
+  defmodule CompilerError do
+    defexception [:message, :code, :output]
+
+    def message(error) do
+      "#{error.message} #{error.code}:\n#{error.output}"
+    end
+  end
+
   defmacro __before_compile__(%{module: module}) do
     clj_dir = Module.get_attribute(module, :clojerx_clj_dir)
     clj_ns = Module.get_attribute(module, :clojerx_clj_ns)
@@ -24,10 +32,11 @@ defmodule Clojerx.Compiler do
 
   def ensure_jinterface_jar() do
     otp_release = :erlang.system_info(:otp_release)
-    erl_jar = Path.join(:code.priv_dir(:clojerx), "OtpErlang-#{otp_release}.jar")
+    otp_jar = "OtpErlang-#{otp_release}.jar"
+    erl_jar = Path.join(:code.priv_dir(:clojerx), otp_jar)
 
     if not File.exists?(erl_jar) do
-      raise "Erlang JInterface jar not found at #{erl_jar}"
+      raise CompilerError, message: "#{otp_jar} jar not found at #{erl_jar}", code: 1, output: ""
     end
 
     erl_jar
@@ -37,13 +46,13 @@ defmodule Clojerx.Compiler do
     clojure_path = System.find_executable("clojure")
 
     if is_nil(clojure_path) do
-      raise "Clojure executable not found"
+      raise CompilerError, message: "clojure executable not found", code: 1, output: ""
     end
 
     {output, exit_code} = System.cmd(clojure_path, ["-T:build", "uber"], cd: clj_dir)
 
     if exit_code != 0 do
-      raise "Clojure build for #{clj_dir} failed with exit code #{exit_code}:\n#{output}"
+      raise CompilerError, message: "clojure command faild for #{clj_dir} ", code: exit_code, output: output
     end
   end
 end

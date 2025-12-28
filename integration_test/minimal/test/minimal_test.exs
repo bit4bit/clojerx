@@ -6,5 +6,4 @@ defmodule MinimalTest do
     cnode = start_supervised!(Minimal)
     assert Minimal.call(cnode, :sum, [1, 2]) == 3
   end
-
 end
