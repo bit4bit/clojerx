@@ -10,7 +10,6 @@ defmodule Clojerx do
     clj_dir = Path.join(Path.dirname(__CALLER__.file), module)
     clj_ns = module
     output_jar = Clojerx.ClojureProject.ensure_jar_path(otp_app, clj_ns)
-    project_sources = Clojerx.ClojureProject.project_sources(clj_dir)
 
     quote do
       @clojerx_otp_app unquote(otp_app)
@@ -26,10 +25,6 @@ defmodule Clojerx do
         deps: @clojerx_deps
       }
       @before_compile Clojerx.Compiler
-
-      for project_source <- unquote(project_sources) do
-        @external_resource project_source
-      end
 
       def start_link(_opts) do
         Clojerx.CNode.start_link(@clojerx_default_opts)

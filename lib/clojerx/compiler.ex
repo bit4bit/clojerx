@@ -7,12 +7,18 @@ defmodule Clojerx.Compiler do
     output_jar = Module.get_attribute(module, :clojerx_output_jar)
     deps_edn = Module.get_attribute(module, :clojerx_deps)
     erl_jar = Clojerx.Compiler.ensure_jinterface_jar()
+
     Clojerx.ClojureProject.ensure_clojure_project(clj_dir, clj_ns)
     Clojerx.ClojureProject.ensure_build_clj(clj_dir, clj_ns, erl_jar, output_jar)
     Clojerx.ClojureProject.ensure_deps_edns(clj_dir, deps_edn)
 
     Clojerx.Compiler.create_jar(clj_dir)
+
+    project_sources = Clojerx.ClojureProject.project_sources(clj_dir)
     quote do
+      for project_source <- unquote(project_sources) do
+        @external_resource project_source
+      end
     end
   end
 
