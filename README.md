@@ -39,3 +39,14 @@ iex --sname demo -S mix
 iex(demo@tere)> {:ok, howto} = Howto.start_link()
 iex(demo@tere)> Howto.call(howto, :any, [1, 2, 3])
 ```
+
+
+## Installation
+
+```elixir
+def deps do
+  [
+    {:clojerx, github: "bit4bit/clojerx"}
+  ]
+end
+```
