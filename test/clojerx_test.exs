@@ -11,6 +11,28 @@ defmodule ClojerxTest do
     {:ok, cnode: cnode}
   end
 
+  test "module dependencies" do
+    defmodule MinimalExampleShare do
+      use Clojerx,
+        otp_app: :clojerx,
+        deps: [
+          {:"clojure.java-time/clojure.java-time", {:"mvn/version", "1.4.3"}}
+        ]
+    end
+
+    defmodule MinimalExampleRoot do
+      use Clojerx,
+        otp_app: :clojerx,
+        deps: [
+          MinimalExampleShare
+        ]
+    end
+
+    cnode = start_supervised!(MinimalExampleRoot)
+
+    assert MinimalExampleRoot.call(cnode, :"first-month-of-year", [2022]) == 1
+  end
+
   test "allow clojure dependencies" do
     defmodule MinimalExampleDependencies do
       use Clojerx,

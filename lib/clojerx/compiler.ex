@@ -36,7 +36,17 @@ defmodule Clojerx.Compiler do
 
   defp ensure_deps_edns(clj_dir, extra_deps_edn) do
     formatted_deps_edn =
-      Enum.map(extra_deps_edn, fn {name, {source, version}} ->
+      Enum.map(extra_deps_edn, fn
+        clojerx_module when is_atom(clojerx_module) ->
+          clojerx_info = clojerx_module.__clojerx__()
+
+          {"#{clojerx_info[:clj_ns]}/#{clojerx_info[:clj_ns]}", :"local/root",
+           clojerx_info[:output_jar]}
+
+        {name, {source, version}} ->
+          {name, source, version}
+      end)
+      |> Enum.map(fn {name, source, version} ->
         ~s(#{name} {:#{source} "#{version}"})
       end)
 
