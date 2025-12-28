@@ -22,19 +22,15 @@ Create a clojure main (gen-class) with the same as the module.
 
 **Howto/src/Howto.clj**
 ```clojure
-(ns Howto (:gen-class))
+(ns Howto (:require [Clojure :as Clojerx]) (:gen-class))
 
 (defn -main [& args])
-  (let [node (OtpNode. "Howto")
-        mbox (.createMBox node)]
-      ; Mandatory same name as Elixir Module
-      (.registerName mbox "Howto")
-      ;; process {:link, _ref, from} link using (.link mbox from)
+  (let [[node mbox] (Clojerx/init "Howto")]
       ;; ....
       )
 ```
 
-Start the Elixir with snames.
+Start the Elixir as distributed node (shortnames).
 ```bash
 iex --sname demo -S mix
 ```
@@ -43,21 +39,3 @@ iex --sname demo -S mix
 iex(demo@tere)> {:ok, howto} = Howto.start_link()
 iex(demo@tere)> Howto.call(howto, :any, [1, 2, 3])
 ```
-
-
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `clojerx` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:clojerx, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/clojerx>.
