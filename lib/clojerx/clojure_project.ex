@@ -4,8 +4,8 @@ defmodule Clojerx.ClojureProject do
   use PrivateModule
 
   def project_sources(clj_dir) do
-    Path.wildcard(Path.join(clj_dir, "src/**/*.clj"))
-    ++ [Path.join(clj_dir, "build.clj")]
+    Path.wildcard(Path.join(clj_dir, "src/**/*.clj")) ++
+      [Path.join(clj_dir, "build.clj")]
   end
 
   def ensure_clojure_project(clj_dir, clj_ns) do

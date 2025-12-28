@@ -1,6 +1,6 @@
 defmodule Clojerx do
   @moduledoc """
-  Documentation for `Clojerx`.
+  Compile current module as a Clojure project.
   """
 
   defmacro __using__(opts) do

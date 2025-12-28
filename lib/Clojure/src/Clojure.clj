@@ -7,7 +7,7 @@
   (let [node (OtpNode. module_name)
         mbox (.createMbox node)]
     (.registerName mbox module_name)
-    (let [o (.receive mbox)
+    (let [o (.receive mbox 5000)
           tuple ^OtpErlangTuple o
           action (.elementAt tuple 0)
           action_ref (.elementAt tuple 1)

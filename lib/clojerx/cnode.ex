@@ -3,6 +3,10 @@ defmodule Clojerx.CNode do
   Documentation for `CNode`.
   """
 
+  defmodule CNodeError do
+    defexception [:message]
+  end
+
   use GenServer
 
   def start_link(opts) when is_map(opts) do
@@ -23,9 +27,11 @@ defmodule Clojerx.CNode do
     port = execute_clojure(clj_dir, output_jar)
     Port.monitor(port)
 
-    case wait_for_node(clojerx_node(clj_ns), 1000) do
+    case wait_for_node(clojerx_node(clj_ns), 5000) do
       {:error, :timeout} ->
-        raise "Node not available #{cnode}"
+        raise CNodeError,
+          message:
+            "Node not available: #{cnode}. Verify that epmd is running and that the current BEAM VM is running as a distributed node."
 
       _ ->
         :ok
@@ -53,7 +59,7 @@ defmodule Clojerx.CNode do
     java_path = System.find_executable("java")
 
     if is_nil(java_path) do
-      raise "Java executable not found"
+      raise CNodeError, message: "java executable not found"
     end
 
     Port.open(

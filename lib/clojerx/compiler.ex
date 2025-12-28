@@ -23,6 +23,7 @@ defmodule Clojerx.Compiler do
     Clojerx.Compiler.create_jar(clj_dir)
 
     project_sources = Clojerx.ClojureProject.project_sources(clj_dir)
+
     quote do
       for project_source <- unquote(project_sources) do
         @external_resource project_source
@@ -52,7 +53,10 @@ defmodule Clojerx.Compiler do
     {output, exit_code} = System.cmd(clojure_path, ["-T:build", "uber"], cd: clj_dir)
 
     if exit_code != 0 do
-      raise CompilerError, message: "clojure command faild for #{clj_dir} ", code: exit_code, output: output
+      raise CompilerError,
+        message: "clojure command faild for #{clj_dir} ",
+        code: exit_code,
+        output: output
     end
   end
 end
