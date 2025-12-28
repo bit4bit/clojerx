@@ -39,9 +39,8 @@ defmodule Clojerx.Compiler do
       Enum.map(extra_deps_edn, fn
         clojerx_module when is_atom(clojerx_module) ->
           clojerx_info = clojerx_module.__clojerx__()
-
-          {"#{clojerx_info[:clj_ns]}/#{clojerx_info[:clj_ns]}", :"local/root",
-           clojerx_info[:output_jar]}
+          clj_ns = clojerx_info[:clj_ns]
+          {"#{clj_ns}/#{clj_ns}", :"local/root", clojerx_info[:output_jar]}
 
         {name, {source, version}} ->
           {name, source, version}
@@ -104,6 +103,10 @@ defmodule Clojerx.Compiler do
     ensure_build_clj(clj_dir, clj_ns, erl_jar, output_jar)
     ensure_deps_edns(clj_dir, deps_edn)
 
-    System.cmd(clojure_path, ["-T:build", "uber"], cd: clj_dir)
+    {output, exit_code} = System.cmd(clojure_path, ["-T:build", "uber"], cd: clj_dir)
+
+    if exit_code != 0 do
+      raise "Clojure build for #{clj_dir} failed with exit code #{exit_code}:\n#{output}"
+    end
   end
 end

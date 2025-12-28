@@ -111,7 +111,10 @@ defmodule Clojerx.CNode do
 
   @impl true
   def terminate(_reason, %{clojure_port: port}) do
-    Port.close(port)
+    if not is_nil(Port.info(port)) do
+      Port.close(port)
+    end
+
     :ok
   end
 end

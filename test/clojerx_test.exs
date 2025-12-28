@@ -64,4 +64,16 @@ defmodule ClojerxTest do
   test "cnode", %{cnode: cnode} do
     assert MinimalExample.call(cnode, :sum, [1, 2]) == 3
   end
+
+  test "cnode clojerx" do
+    defmodule MinimalExampleClojerx do
+      use Clojerx,
+        otp_app: :clojerx,
+        deps: [Clojerx.Clojure]
+    end
+
+    cnode = start_supervised!(MinimalExampleClojerx)
+
+    assert MinimalExampleClojerx.call(cnode, :sum, [1, 2]) == 3
+  end
 end
