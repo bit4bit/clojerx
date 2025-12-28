@@ -1,5 +1,5 @@
 defmodule ClojerxTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
 
   defmodule MinimalExample do
     use Clojerx, otp_app: :clojerx

@@ -4,6 +4,7 @@ defmodule Clojerx.MixProject do
   def project do
     [
       app: :clojerx,
+      compilers: [:private_module] ++ Mix.compilers(),
       version: "0.1.0",
       elixir: "~> 1.15",
       start_permanent: Mix.env() == :prod,
@@ -22,8 +23,7 @@ defmodule Clojerx.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
+      {:private_module, "~> 0.1"}
     ]
   end
 end
